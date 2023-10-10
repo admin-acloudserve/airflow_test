@@ -32,15 +32,35 @@ def get_mysql_connection():
         for row in result:
             print(row)
 
-import clickhouse_connect
+from clickhouse_driver import Client
 def get_clickhouse_connection():
-    client = clickhouse_connect.get_client(host='172.20.172.230', port=9004, username='default', password='vkl5Qb0ybh')
-    client.command('CREATE TABLE new_table (dag_id String) ENGINE MergeTree')
-    data = [['new_dag1'], ['new_dag2']]
-    client.insert('new_table', data, column_names=['dag_id'])
-    result = client.query('SELECT * FROM new_table')
+    host = 'a4053cf1292824fcdbc1af7886ad0420-1236332051.us-east-1.elb.amazonaws.com'
+    port = 9000  # Default ClickHouse port
+    database = 'system'
+    user = 'default'
+    password = 'vkl5Qb0ybh'
 
-    print(result.result_rows)
+    # Create a ClickHouse client
+    client = Client(host=host, port=port, database=database, user=user, password=password)
+
+    # Define your SQL query
+    query = 'select * from INFORMATION_SCHEMA.tables;;'
+
+    try:
+        # Execute the query
+        result = client.execute(query)
+
+        # Process the result
+        for row in result:
+            print(row)
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+    finally:
+        # Close the ClickHouse connection when done
+        client.disconnect()
+    
 
 
 
