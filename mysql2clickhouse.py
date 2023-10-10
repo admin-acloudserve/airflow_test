@@ -57,4 +57,4 @@ with dag:
     )
 
 
-    get_mysql_connection > get_clickhouse_connection
+    get_mysql_connection >> get_clickhouse_connection
