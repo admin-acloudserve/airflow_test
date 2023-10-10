@@ -25,7 +25,7 @@ def get_connection():
 
     with engine.connect() as connection:
 
-        result = connection.execute("SELECT dag_id FROM dag;")
+        result = connection.execute("SELECT dag_id FROM dag")
 
         print(result)
         print(type(result))
