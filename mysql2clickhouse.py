@@ -26,7 +26,7 @@ def get_connection():
 
     mycursor = mydb.cursor()
 
-    mycursor.execute("SELECT * FROM job")
+    mycursor.execute("SELECT dag_id FROM dag")
 
     myresult = mycursor.fetchall()
 
