@@ -17,23 +17,23 @@ dag = DAG(
     catchup=False
 )
 
+from sqlalchemy import create_engine
+
 def get_connection():
-    mydb = mysql.connector.connect(
-        host="http://172.20.51.218",
-        user="airflow_user",
-        password="airflow_pass",
-        database="airflow_db"
-    )
+    connection_string = "mysql+mysqlconnector://airflow_user:airflow_pass@my-db-pxc-db-haproxy.xtradb.svc.cluster.local:3306/airflow_db"
+    engine = create_engine(connection_string, echo=True)
 
-    mycursor = mydb.cursor()
+    with engine.connect() as connection:
 
-    mycursor.execute("SELECT dag_id FROM dag")
+        result = connection.execute(text("SELECT dag_id FROM dag"))
 
-    myresult = mycursor.fetchall()
+        print(result)
+        print(type(result))
+        for row in result:
+            print(row)
 
-    print(type(myresult))
-    for x in myresult:
-        print(x)
+
+
 
 with dag:
     extract_task = PythonOperator(
