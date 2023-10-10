@@ -13,7 +13,8 @@ dag = DAG(
     'sample_dag2',
     default_args=default_args,
     description='A simple Airflow DAG',
-    schedule_interval='once'
+    schedule_interval=None,
+    catchup=False
 )
 
 def get_connection():
