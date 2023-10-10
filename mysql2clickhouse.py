@@ -31,7 +31,7 @@ def get_mysql_connection():
         print(type(result))
         for row in result:
             print(row)
-
+# caonma
 from clickhouse_driver import Client
 def get_clickhouse_connection():
     host = 'a4053cf1292824fcdbc1af7886ad0420-1236332051.us-east-1.elb.amazonaws.com'
