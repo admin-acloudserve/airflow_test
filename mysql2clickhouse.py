@@ -34,7 +34,7 @@ def get_mysql_connection():
 # caonma
 from clickhouse_driver import Client
 def get_clickhouse_connection():
-    host = 'a4053cf1292824fcdbc1af7886ad0420-1236332051.us-east-1.elb.amazonaws.com'
+    host = '172.20.212.164'
     port = 9000  # Default ClickHouse port
     database = 'system'
     user = 'default'
