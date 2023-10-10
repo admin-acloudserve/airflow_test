@@ -10,7 +10,7 @@ default_args = {
 }
 
 dag = DAG(
-    'sample_dag',
+    'sample_dag2',
     default_args=default_args,
     description='A simple Airflow DAG',
     schedule_interval='once'
