@@ -19,7 +19,7 @@ dag = DAG(
 
 from sqlalchemy import create_engine
 
-def get_connection():
+def get_mysql_connection():
     connection_string = "mysql+mysqlconnector://airflow_user:airflow_pass@my-db-pxc-db-haproxy.xtradb.svc.cluster.local:3306/airflow_db"
     engine = create_engine(connection_string, echo=True)
 
@@ -32,12 +32,29 @@ def get_connection():
         for row in result:
             print(row)
 
+import clickhouse_connect
+def get_clickhouse_connection():
+    client = clickhouse_connect.get_client(host='172.20.172.230', port=9004, username='default', password='vkl5Qb0ybh')
+    client.command('CREATE TABLE new_table (dag_id String) ENGINE MergeTree')
+    data = [['new_dag1'], ['new_dag2']]
+    client.insert('new_table', data, column_names=['dag_id'])
+    result = client.query('SELECT * FROM new_table')
+
+    print(result.result_rows)
+
 
 
 
 with dag:
-    extract_task = PythonOperator(
-        task_id='get_connection',
-        python_callable=get_connection
+    get_mysql_connection = PythonOperator(
+        task_id='get_mysql_connection',
+        python_callable=get_mysql_connection
     )
-    extract_task 
+
+    get_clickhouse_connection = PythonOperator(
+        task_id='get_clickhouse_connection',
+        python_callable=get_clickhouse_connection
+    )
+
+
+    get_mysql_connection > get_clickhouse_connection
