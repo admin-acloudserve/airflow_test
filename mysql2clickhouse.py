@@ -19,7 +19,7 @@ dag = DAG(
 
 def get_connection():
     mydb = mysql.connector.connect(
-        host="my-db-pxc-db-haproxy.xtradb.svc.cluster.local",
+        host="http://my-db-pxc-db-haproxy.xtradb.svc.cluster.local",
         user="airflow_user",
         password="airflow_pass",
         database="airflow_db"
